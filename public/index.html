@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Cloud Transfer System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-orb orb1"></div><div class="bg-orb orb2"></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">☁️</span><div><b>SecureCloud</b><small>AI-Powered P2P Security</small></div></div>
+    <div id="userArea"></div>
+  </header>
+
+  <main>
+    <section id="authView" class="auth-layout">
+      <div class="hero">
+        <span class="pill">🔐 Anonymous • AI • Encrypted</span>
+        <h1>Secure your<br><span>cloud transfers.</span></h1>
+        <p>Anonymous authentication, intelligent malicious-node detection and AES-256-GCM encrypted file transfer in one colorful dashboard.</p>
+        <div class="feature-row">
+          <div><span>🕵️</span><b>Anonymous ID</b><small>Privacy-first identity</small></div>
+          <div><span>🤖</span><b>AI Node Check</b><small>Risk scoring</small></div>
+          <div><span>🔒</span><b>AES-256-GCM</b><small>Encrypted storage</small></div>
+        </div>
+      </div>
+      <div class="auth-card">
+        <div class="tabs"><button class="active" onclick="showAuth('login')">Login</button><button onclick="showAuth('register')">Register</button></div>
+        <form id="loginForm" onsubmit="login(event)">
+          <h2>Welcome back 👋</h2><p class="muted">Access your secure transfer workspace.</p>
+          <label>Email<input id="loginEmail" type="email" required placeholder="you@example.com"></label>
+          <label>Password<input id="loginPassword" type="password" required placeholder="••••••••"></label>
+          <button class="primary full">Login Securely →</button>
+          <div id="loginMsg" class="message"></div>
+        </form>
+        <form id="registerForm" class="hidden" onsubmit="register(event)">
+          <h2>Create account 🚀</h2><p class="muted">Your anonymous identity is generated automatically.</p>
+          <label>Full name<input id="regName" required placeholder="Your name"></label>
+          <label>Email<input id="regEmail" type="email" required placeholder="you@example.com"></label>
+          <label>Password<input id="regPassword" type="password" minlength="6" required placeholder="Minimum 6 characters"></label>
+          <button class="primary full">Create Secure Account →</button>
+          <div id="regMsg" class="message"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="appView" class="hidden">
+      <div class="welcome"><div><span class="pill">SECURE WORKSPACE</span><h1>Good to see you, <span id="name"></span> 👋</h1><p>Your files pass through authentication, AI inspection, encryption and secure storage.</p></div><div class="anon-box"><small>ANONYMOUS ID</small><b id="anonId">—</b></div></div>
+      <div class="stats">
+        <div class="stat"><span>📦</span><div><small>Total Transfers</small><strong id="total">0</strong></div></div>
+        <div class="stat good"><span>✅</span><div><small>Successful</small><strong id="successful">0</strong></div></div>
+        <div class="stat danger"><span>🛡️</span><div><small>Blocked Nodes</small><strong id="blocked">0</strong></div></div>
+        <div class="stat"><span>💾</span><div><small>Protected Data</small><strong id="bytes">0 B</strong></div></div>
+      </div>
+
+      <div class="grid">
+        <div class="card transfer-card">
+          <div class="card-head"><div><span class="section-icon">🚀</span><div><h2>Secure File Transfer</h2><p>Check the destination before sending.</p></div></div><span class="secure-tag">● SECURE</span></div>
+          <form id="transferForm" onsubmit="transfer(event)">
+            <label>Destination Cloud Node<input id="nodeUrl" required value="https://trusted-cloud.example.com" placeholder="https://cloud.example.com"></label>
+            <div class="node-check"><div><small>AI SECURITY STATUS</small><strong id="nodeStatus">Not checked</strong></div><button type="button" class="secondary" onclick="checkNode()">🤖 Check Node</button></div>
+            <label class="drop" id="dropZone"><input id="file" type="file" required onchange="fileSelected()"><span>📄</span><b id="fileLabel">Choose a file</b><small>Maximum 20 MB • Supported types only (AI-verified)</small></label>
+            <div id="fileAlert" class="file-alert hidden" role="alert"><div class="fa-head"><span class="fa-dot"></span><b id="faTitle"></b><span id="faScore"></span></div><ul id="faReasons"></ul></div>
+            <button class="primary full" id="transferBtn">🔐 Encrypt & Transfer</button>
+          </form>
+          <div id="transferMsg" class="message"></div>
+        </div>
+
+        <div class="card pipeline-card">
+          <div class="card-head"><div><span class="section-icon">⚡</span><div><h2>Security Pipeline</h2><p>Live workflow from your project.</p></div></div></div>
+          <div class="pipeline" id="pipeline">
+            <div class="step active"><i>1</i><span><b>User Login</b><small>Authentication required</small></span></div>
+            <div class="step"><i>2</i><span><b>Anonymous Identity</b><small>Generated privately</small></span></div>
+            <div class="step"><i>3</i><span><b>Authentication</b><small>Session verified</small></span></div>
+            <div class="step"><i>4</i><span><b>Secret Key</b><small>Secure key generated</small></span></div>
+            <div class="step"><i>5</i><span><b>AI Security Check</b><small>Destination inspection</small></span></div>
+            <div class="step"><i>6</i><span><b>Encryption</b><small>AES-256-GCM</small></span></div>
+            <div class="step"><i>7</i><span><b>File Transfer</b><small>Secure transmission</small></span></div>
+            <div class="step"><i>8</i><span><b>Cloud Storage</b><small>Encrypted at rest</small></span></div>
+            <div class="step"><i>9</i><span><b>Status</b><small>SUCCESS / BLOCKED</small></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card history-card">
+        <div class="card-head"><div><span class="section-icon">🗂️</span><div><h2>Transfer History</h2><p>Every security decision is recorded.</p></div></div><button class="secondary" onclick="loadDashboard()">↻ Refresh</button></div>
+        <div class="table-wrap"><table><thead><tr><th>File</th><th>Destination</th><th>AI Score</th><th>Risk</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody id="history"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+  <footer>SecureCloud • AI-Based Anonymous Authentication & Malicious Node Detection • College Project Demo</footer>
+  <script src="app.js"></script>
+</body>
+</html>
